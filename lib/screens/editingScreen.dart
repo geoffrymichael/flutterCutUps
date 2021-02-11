@@ -54,8 +54,8 @@ class _EditingScreenState extends State<EditingScreen> {
                 if (newIndex > oldIndex) {
                   newIndex -= 1;
                 }
-                final item = sampleList.removeAt(oldIndex);
-                sampleList.insert(newIndex, item);
+                final item = widget.fromCuttingScreen.removeAt(oldIndex);
+                widget.fromCuttingScreen.insert(newIndex, item);
               });
             },
           ),

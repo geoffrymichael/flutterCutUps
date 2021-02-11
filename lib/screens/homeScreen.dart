@@ -1,11 +1,18 @@
 import 'package:cut_ups/screens/editingScreen.dart';
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   List<String> singleLines = [];
 
   final TextEditingController _controller = TextEditingController();
+
   String inputText;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,32 +22,38 @@ class HomeScreen extends StatelessWidget {
           FlatButton(
             onPressed: () async {
               if (inputText == null) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) {
-                    return EditingScreen(
-                      fromCuttingScreen: singleLines,
-                    );
-                  }),
-                );
-              }
-              if (singleLines.isEmpty) {
-                singleLines = inputText.split('\n');
-              } else {
-                List<String> newTextData = inputText.split('\n');
-                for (String line in newTextData) {
-                  singleLines.add(line);
-                }
-              }
-              _controller.clear();
+                print("null line");
+                print(inputText);
 
-              singleLines = await Navigator.push(context,
-                  MaterialPageRoute(builder: (context) {
-                return EditingScreen(
-                  fromCuttingScreen: singleLines,
-                );
-              }));
-              print(singleLines);
+                // Navigator.pop(context);
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) {
+                //     return EditingScreen(
+                //       fromCuttingScreen: singleLines,
+                //     );
+                //   }),
+                // );
+                return;
+              } else {
+                if (singleLines.isEmpty) {
+                  singleLines = inputText.split('\n');
+                } else {
+                  List<String> newTextData = inputText.split('\n');
+                  for (String line in newTextData) {
+                    singleLines.add(line);
+                  }
+                }
+                _controller.clear();
+
+                singleLines = await Navigator.push(context,
+                    MaterialPageRoute(builder: (context) {
+                  return EditingScreen(
+                    fromCuttingScreen: singleLines,
+                  );
+                }));
+                print(singleLines);
+              }
             },
             child: Icon(Icons.cut_sharp),
           )
