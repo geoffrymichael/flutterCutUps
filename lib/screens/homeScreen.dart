@@ -1,5 +1,5 @@
-import 'package:cut_ups/screens/editingScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:cut_ups/screens/editingScreen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -20,21 +20,19 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         actions: [
           FlatButton(
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return EditingScreen(
+                  fromCuttingScreen: singleLines,
+                );
+              }));
+            },
+            child: Text('Editing Board'),
+          ),
+          FlatButton(
             onPressed: () async {
-              if (inputText == null) {
+              if (inputText == null || inputText.isEmpty) {
                 print("null line");
-                print(inputText);
-
-                // Navigator.pop(context);
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(builder: (context) {
-                //     return EditingScreen(
-                //       fromCuttingScreen: singleLines,
-                //     );
-                //   }),
-                // );
-                return;
               } else {
                 if (singleLines.isEmpty) {
                   singleLines = inputText.split('\n');
@@ -45,6 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   }
                 }
                 _controller.clear();
+                inputText = '';
 
                 singleLines = await Navigator.push(context,
                     MaterialPageRoute(builder: (context) {

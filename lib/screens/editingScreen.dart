@@ -2,13 +2,30 @@ import 'package:flutter/material.dart';
 
 class EditingScreen extends StatefulWidget {
   EditingScreen({this.fromCuttingScreen});
-  List<String> fromCuttingScreen;
+  final List<String> fromCuttingScreen;
 
   @override
   _EditingScreenState createState() => _EditingScreenState();
 }
 
+List<String> createListFromHomescreen(List<String> list) {
+  return list;
+}
+
 class _EditingScreenState extends State<EditingScreen> {
+  List<String> listForList = [];
+
+  void initState() {
+    super.initState();
+    listForList = createListFromHomescreen(widget.fromCuttingScreen);
+  }
+
+  void randomizeList(List<String> list) {
+    setState(() {
+      list.shuffle();
+    });
+  }
+
   List<String> sampleList = [
     'A',
     'B',
@@ -25,24 +42,30 @@ class _EditingScreenState extends State<EditingScreen> {
       appBar: AppBar(
         leading: BackButton(
           onPressed: () {
-            Navigator.pop(context, widget.fromCuttingScreen);
-            print("back buttonn pressed");
+            Navigator.pop(context, listForList);
           },
         ),
-        actions: [],
+        actions: [
+          FlatButton(
+            onPressed: () {
+              randomizeList(listForList);
+            },
+            child: Text('Randomize'),
+          ),
+        ],
       ),
       body: WillPopScope(
         onWillPop: () async {
           Navigator.pop(context, false);
-          print("did I pop?");
+
           return false;
         },
         child: SafeArea(
           child: ReorderableListView(
             children: [
-              for (final item in widget.fromCuttingScreen)
+              for (final item in listForList)
                 Card(
-                  key: ValueKey(item),
+                  key: Key(item),
                   elevation: 2,
                   child: ListTile(
                     title: Text(item),
@@ -54,8 +77,8 @@ class _EditingScreenState extends State<EditingScreen> {
                 if (newIndex > oldIndex) {
                   newIndex -= 1;
                 }
-                final item = widget.fromCuttingScreen.removeAt(oldIndex);
-                widget.fromCuttingScreen.insert(newIndex, item);
+                final item = listForList.removeAt(oldIndex);
+                listForList.insert(newIndex, item);
               });
             },
           ),
