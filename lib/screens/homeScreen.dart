@@ -19,18 +19,22 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: Colors.lightBlueAccent,
       appBar: AppBar(
         actions: [
-          FlatButton(
+          TextButton(
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return EditingScreen(
-                  fromCuttingScreen: singleLines,
-                );
+                return EditingScreen(fromCuttingScreen: singleLines);
               }));
             },
-            child: Text('Editing Board'),
+            child: Text(
+              'Edit',
+              style: TextStyle(color: Colors.black),
+            ),
           ),
-          FlatButton(
-            onPressed: () async {
+          TextButton(
+            onLongPress: () {
+              print("long press");
+            },
+            onPressed: () {
               if (inputText == null || inputText.isEmpty) {
                 print("null line");
               } else {
@@ -45,17 +49,20 @@ class _HomeScreenState extends State<HomeScreen> {
                 _controller.clear();
                 inputText = '';
 
-                singleLines = await Navigator.push(context,
-                    MaterialPageRoute(builder: (context) {
-                  return EditingScreen(
-                    fromCuttingScreen: singleLines,
-                  );
-                }));
-                print(singleLines);
+                // singleLines = await Navigator.push(context,
+                //     MaterialPageRoute(builder: (context) {
+                //   return EditingScreen(
+                //     fromCuttingScreen: singleLines,
+                //   );
+                // }));
+                // print(singleLines);
               }
             },
-            child: Icon(Icons.cut_sharp),
-          )
+            child: Icon(
+              Icons.cut_sharp,
+              color: Colors.black,
+            ),
+          ),
         ],
       ),
       body: Container(

@@ -46,11 +46,14 @@ class _EditingScreenState extends State<EditingScreen> {
           },
         ),
         actions: [
-          FlatButton(
+          TextButton(
             onPressed: () {
               randomizeList(listForList);
             },
-            child: Text('Randomize'),
+            child: Icon(
+              Icons.shuffle,
+              color: Colors.black,
+            ),
           ),
         ],
       ),
