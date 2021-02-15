@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:cut_ups/screens/editingScreen.dart';
 
@@ -20,14 +22,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   String inputText;
 
-  String whatIsGoingOn = 'blah blah blah';
-
-  void printChangedValue(String dropDownValue) {
-    setState(() {
-      print('$dropDownValue sunday');
-    });
-  }
-
   void splitText(String dropDownValue) {
     if (dropDownValue == howToSeparate[1]) {
       print('singleLines');
@@ -47,7 +41,30 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     } else {
       if (dropDownValue == howToSeparate[3]) {
-        print('do something');
+        if (inputText == null || inputText.isEmpty) {
+          print('nothing to cut');
+        } else {
+          if (inputText == null || inputText.isEmpty) {
+            print('nothing to cut');
+          } else {
+            String singleLine = inputText.replaceAll('\n', ' ');
+
+            var singleWords = singleLine.split(' ');
+
+            var chunks = [];
+            for (var i = 0; i < singleWords.length; i += 3) {
+              chunks.add(singleWords.sublist(
+                  i, i + 3 > singleWords.length ? singleWords.length : i + 3));
+            }
+
+            for (var item in chunks) {
+              final newString = item.join(' ');
+              singleLines.add(newString);
+            }
+            _controller.clear();
+            inputText = '';
+          }
+        }
       }
     }
   }
@@ -163,52 +180,6 @@ class CutDropDown extends StatelessWidget {
         );
       }).toList(),
       onChanged: cutStyle,
-    );
-  }
-}
-
-class Task extends StatefulWidget {
-  @override
-  _TaskState createState() => _TaskState();
-}
-
-class _TaskState extends State<Task> {
-  bool isChecked = false;
-  void checkBoxCallback(bool checkBoxState) {
-    //Why do we not need to provide checkBoxState argument when calling this in onChanged? Is it inferred
-    setState(() {
-      isChecked = checkBoxState;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(
-        'This is a new task',
-        style: TextStyle(
-            decoration: isChecked ? TextDecoration.lineThrough : null),
-      ),
-      trailing: TaskCheckBox(
-        checkboxState: isChecked,
-        toggleCheckBoxState: checkBoxCallback,
-      ),
-    );
-  }
-}
-
-class TaskCheckBox extends StatelessWidget {
-  TaskCheckBox({this.checkboxState, this.toggleCheckBoxState});
-
-  final bool checkboxState;
-  final Function toggleCheckBoxState;
-
-  @override
-  Widget build(BuildContext context) {
-    return Checkbox(
-      value: checkboxState,
-      onChanged:
-          toggleCheckBoxState, //I have no idea, but I believe our bool argument is inferred from the on changed value.
     );
   }
 }
